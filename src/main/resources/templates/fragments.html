@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="icon" th:href="@{/images/cultuurhuis.ico}" type="image/x-ico">
+    <link rel="stylesheet" th:href="@{/css/cultuurhuis.css}">
+</head>
+<body>
+<nav th:fragment="menu">
+    <ul class="zonderbolletjes">
+        <li><a th:href="@{/}">Voorstellingen</a></li>
+    </ul>
+</nav>
+</body>
+</html>

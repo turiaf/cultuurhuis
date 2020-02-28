@@ -1,6 +1,11 @@
 package be.vdab.cultuurhuis.domain;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "genres")
@@ -9,6 +14,9 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String naam;
+    @OneToMany
+    @JoinColumn(name = "genreid")
+    private Set<Voorstelling> voorstellingen;
 
     public long getId() {
         return id;
@@ -17,4 +25,9 @@ public class Genre {
     public String getNaam() {
         return naam;
     }
+
+    public Set<Voorstelling> getVoorstellingen() {
+        return Collections.unmodifiableSet(voorstellingen);
+    }
+
 }
