@@ -29,4 +29,9 @@ class DefaultVoorstellingService implements VoorstellingService {
         return voorstellingRepository.findById(id);
     }
 
+    @Override
+    public List<Voorstelling> findAllInList(List<Long> idList) {
+        return voorstellingRepository.findAllInList(idList);
+    }
+
 }

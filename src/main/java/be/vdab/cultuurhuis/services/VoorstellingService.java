@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface VoorstellingService {
     List<Voorstelling> findByGenreZonderVerleden(long genreId);
     Optional<Voorstelling> findById(long id);
+    List<Voorstelling> findAllInList(List<Long> idList);
 }

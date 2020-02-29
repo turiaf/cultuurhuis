@@ -10,4 +10,5 @@ import java.util.List;
 public interface VoorstellingRepository extends JpaRepository<Voorstelling, Long> {
     List<Voorstelling> findByGenreZonderVerleden(@Param("genreId") long genreId,
                                                  @Param("today") LocalDateTime today);
+    List<Voorstelling> findAllInList(@Param("idList")List<Long> idList);
 }

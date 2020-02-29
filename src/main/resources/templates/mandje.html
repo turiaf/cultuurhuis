@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title= 'cultuurhuis')"></head>
+<body>
+<nav th:replace="fragments::menu"></nav>
+<h1>Mandje <img th:src="@{/images/mandje.png}" alt="mandje"></h1>
+<form th:action="@{/mandje/verwijderen}" method="post">
+    <table class="genreTable">
+        <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Titel</th>
+            <th>Uitvoerders</th>
+            <th>Prijs</th>
+            <th>Plaatsen</th>
+            <th><button>Verwijderen</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mandjeLijn:${mandjeList}" th:object="${mandjeLijn.voorstelling}">
+            <td th:text="*{{datum}}" class="rightb"></td>
+            <td th:text="*{titel}"></td>
+            <td th:text="*{uitvoerders}"></td>
+            <td><span>&euro; </span><span th:text="*{{prijs}}"></span></td>
+            <td th:text="${mandjeLijn.plaatsen}" class="rightb"></td>
+            <td>
+                <input type="checkbox" name="ver" th:value="*{id}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<p>Te betalen: <span>&euro; </span><span th:text="${totaal}"></span></p>
+</body>
+</html>

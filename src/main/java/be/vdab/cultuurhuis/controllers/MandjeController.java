@@ -1,58 +1,71 @@
 package be.vdab.cultuurhuis.controllers;
 
 import be.vdab.cultuurhuis.domain.Voorstelling;
-import be.vdab.cultuurhuis.exceptions.VoorstellingNietGevondenException;
-import be.vdab.cultuurhuis.forms.PlaatsenForm;
+import be.vdab.cultuurhuis.dto.MandjeLijn;
 import be.vdab.cultuurhuis.services.VoorstellingService;
 import be.vdab.cultuurhuis.sessions.Mandje;
+import be.vdab.cultuurhuis.sessions.StateMandje;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
-@RequestMapping("reservaties")
+@RequestMapping("mandje")
 public class MandjeController {
     private final Mandje mandje;
     private final VoorstellingService voorstellingService;
+    private final StateMandje stateMandje;
 
-    public MandjeController(Mandje mandje, VoorstellingService voorstellingService) {
+    public MandjeController(Mandje mandje, VoorstellingService voorstellingService, StateMandje stateMandje) {
         this.mandje = mandje;
         this.voorstellingService = voorstellingService;
+        this.stateMandje = stateMandje;
     }
 
-    @PostMapping("{optionalVoorstelling}")
-    public ModelAndView reserveren(@Valid PlaatsenForm form, Errors errors,
-                                   @PathVariable Optional<Voorstelling> optionalVoorstelling) {
-        if(errors.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("reserveren");
-            optionalVoorstelling.ifPresent(voorstelling -> {
-                modelAndView.addObject("voorstelling", voorstelling);
+    @GetMapping
+    public ModelAndView toonMandje() {
+        ModelAndView modelAndView = new ModelAndView("mandje");
+        if (mandje.isGevuld()) {
+            List<MandjeLijn> mandjeList = new ArrayList<>();
+            List<Long> idList = new ArrayList<Long>(mandje.getVoorstellingen().keySet());
+            List<Voorstelling> voorstellingList = voorstellingService.findAllInList(idList);
+            mandje.getVoorstellingen().entrySet().stream().forEach(entry -> {
+                voorstellingList.stream().forEach(voorstelling -> {
+                    if(entry.getKey() == voorstelling.getId()) {
+                        BigDecimal teBetalen = voorstelling.teBetalen(entry.getValue());
+                        mandjeList.add(new MandjeLijn(voorstelling, entry.getValue()));
+                    }
+                });
             });
-            return modelAndView;
-        }
-        if(optionalVoorstelling.isPresent()) {
-            Voorstelling voorstelling = optionalVoorstelling.get();
-            long plaats = mandje.addVoorstelling(voorstelling.getId(), form.getPlaatsen());
-            if(plaats == 0 || plaats == -1) {
-                mandje.verhoogTotaal(voorstelling.teBetalen(form.getPlaatsen()));
-                return new ModelAndView("redirect:/");
-            } else {
-                ModelAndView modelAndView = new ModelAndView("reserveren");
-                modelAndView.addObject("voorstelling", voorstelling);
-                form.setPlaatsen(plaats);
-                modelAndView.addObject("plaatsenForm", form)
-                .addObject("keer", true);
-                return modelAndView;
-            }
+            modelAndView.addObject("mandjeList", mandjeList)
+                    .addObject("totaal", mandje.getTotaal());
         } else {
-            return new ModelAndView("voorstellingen");
+            modelAndView.addObject("totaal", mandje.getTotaal());
         }
+        return modelAndView;
+    }
+
+    @PostMapping("verwijderen")
+    public ModelAndView verwijderen(@RequestParam("ver") List<Long> idList) {
+        List<Voorstelling> voorstellingList = voorstellingService.findAllInList(idList);
+        voorstellingList.stream().forEach(voorstelling -> {
+            mandje.verlaagTotaal(voorstelling.teBetalen(
+                    mandje.getVoorstellingen().get(voorstelling.getId())));
+            mandje.deleteItem(voorstelling.getId());
+        });
+        if(mandje.isGevuld()) {
+            stateMandje.setGevuld(true);
+        } else {
+            stateMandje.setGevuld(false);
+        }
+        return new ModelAndView("redirect:/mandje");
     }
 }

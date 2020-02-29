@@ -10,4 +10,10 @@
             order by v.datum
         </query>
     </named-query>
+    <named-query name="Voorstelling.findAllInList">
+        <query>
+            select v from Voorstelling v
+            where v.id in :idList
+        </query>
+    </named-query>
 </entity-mappings>
