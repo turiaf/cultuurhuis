@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <title th:text="${title}"></title>
@@ -11,6 +10,8 @@
 <nav th:fragment="menu">
     <ul class="zonderbolletjes">
         <li><a th:href="@{/}">Voorstellingen</a></li>
+        <li th:if="${stateMandje.gevuld}"><a th:href="@{/}">Mandje</a></li>
+        <li th:if="${stateMandje.gevuld}"><a th:href="@{/}">Bevestigen</a></li>
     </ul>
 </nav>
 </body>

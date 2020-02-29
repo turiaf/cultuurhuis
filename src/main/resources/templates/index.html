@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(title= 'cultuurhuis')"></head>
 <body>
 <nav th:replace="fragments::menu"></nav>
@@ -8,34 +7,8 @@
 <h2>Genres</h2>
 <ul class="zonderbolletjes">
     <li th:each="genr:${genres}" th:object="${genr}">
-        <a th:href="@{/genres/{id}(id= *{id})}" th:text="*{naam}"></a></li>
+        <a th:href="@{/genres/{number}/voorstellingen(number= *{id})}" th:text="*{naam}"></a>
+    </li>
 </ul>
-<div th:if="${genre} != null">
-    <h2><span th:text="${genre.naam}"></span> voorstellingen</h2>
-    <table class="genreTable">
-        <thead>
-        <tr>
-            <th>Datum</th>
-            <th>Titel</th>
-            <th>Uitvoerders</th>
-            <th>Prijs</th>
-            <th>Vrije plaatsen</th>
-            <th>Reserveren</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="voorstelling:${genre.getVoorstellingen()}" th:object="${voorstelling}">
-            <td th:text="*{{datum}}"></td>
-            <td th:text="*{titel}"></td>
-            <td th:text="*{uitvoerders}"></td>
-            <td><span>&euro; </span><span th:text="*{{prijs}}"></span></td>
-            <td th:text="*{vrijeplaatsen}"></td>
-            <td>
-                <a th:if="*{vrijeplaatsen > 0}" th:text="Reserveren" th:href="@{/}"></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>

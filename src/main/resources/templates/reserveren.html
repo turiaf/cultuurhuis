@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title= 'cultuurhuis')"></head>
+<body>
+<script th:src="@{/js/preventDoubleSubmit.js}" defer></script>
+<nav th:replace="fragments::menu"></nav>
+
+<h1><span th:text="|${voorstelling.titel} - ${voorstelling.uitvoerders}|"></span>
+    <img th:src="@{/images/reserveren.png}" alt="reserveren"></h1>
+<dl th:object="${voorstelling}">
+    <dt>Voorstelling</dt>
+    <dd th:text="*{titel}"></dd>
+    <dt>Uitvoerders</dt>
+    <dd th:text="*{uitvoerders}"></dd>
+    <dt>Datum</dt>
+    <dd th:text="*{{datum}}"></dd>
+    <dt>Prijs</dt>
+    <dd><span>&euro; </span><span th:text="*{{prijs}}"></span></dd>
+    <dt>Vrijeplaatsen</dt>
+    <dd th:text="*{vrijeplaatsen}"></dd>
+</dl>
+<form th:object="${plaatsenForm}" method="post"
+      th:action="@{/reservaties/{id}(id= ${voorstelling.id})}">
+    <label>Plaatsen
+        <span th:errors="*{plaatsen}"></span>
+        <span th:if="${keer}">Reservatie bestaat al u kan deze wijzigen</span>
+        <input th:field="*{plaatsen}">
+    </label>
+    <input name="voorstelling" type="hidden" th:value="${voorstelling.id}">
+    <button>Toevoegen</button>
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div class="fout" th:each="error:${#fields.globalErrors()}"
+             th:text="${error}"></div>
+    </div>
+</form>
+</body>
+</html>

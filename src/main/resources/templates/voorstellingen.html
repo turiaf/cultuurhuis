@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title= 'cultuurhuis')"></head>
+<body>
+<nav th:replace="fragments::menu"></nav>
+<h1 th:if="${voorstellingen} == null">Voorstelling niet gevonden</h1>
+<div th:if="${voorstellingen} != null">
+    <h1>Voorstellingen <img th:src="@{/images/voorstellingen.png}" alt="voorstellingen"></h1>
+    <h2>Genres</h2>
+    <ul class="zonderbolletjes">
+        <li th:each="genr:${genres}" th:object="${genr}">
+            <a th:href="@{/genres/{number}/voorstellingen(number= *{id})}" th:text="*{naam}"></a></a></li>
+    </ul>
+    <div th:if="${voorstellingen} != null">
+        <h2><span th:text="${genre.naam}"></span> voorstellingen</h2>
+        <table class="genreTable">
+            <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Titel</th>
+                <th>Uitvoerders</th>
+                <th>Prijs</th>
+                <th>Vrije plaatsen</th>
+                <th>Reserveren</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voorstelling:${voorstellingen}" th:object="${voorstelling}">
+                <td th:text="*{{datum}}" class="rightb"></td>
+                <td th:text="*{titel}"></td>
+                <td th:text="*{uitvoerders}"></td>
+                <td><span>&euro; </span><span th:text="*{{prijs}}"></span></td>
+                <td th:text="*{vrijeplaatsen}" class="rightb"></td>
+                <td>
+                    <a th:if="*{vrijeplaatsen > 0}" th:text="Reserveren"
+                       th:href="@{/genres/voorstelling/{id}/reserveren(id= *{id})}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

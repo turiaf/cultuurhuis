@@ -4,7 +4,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,7 +16,9 @@ import java.util.Objects;
 public class Voorstelling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @NotNull
+    @Positive
+    private Long id;
     private String titel;
     private String uitvoerders;
     @DateTimeFormat
@@ -21,10 +26,13 @@ public class Voorstelling {
     @NumberFormat(pattern = "0.00")
     private BigDecimal prijs;
     private long vrijeplaatsen;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "genreid")
+    private Genre genre;
     @Version
     private long versie;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -48,17 +56,15 @@ public class Voorstelling {
         return vrijeplaatsen;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Voorstelling)) return false;
-        Voorstelling that = (Voorstelling) o;
-        return Objects.equals(titel, that.titel) &&
-                Objects.equals(datum, that.datum);
+    public Genre getGenre() {
+        return genre;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(titel, datum);
+    public BigDecimal teBetalen(long aantal) {
+        if(aantal <= 0) {
+            throw new IllegalArgumentException();
+        }
+        return prijs.multiply(BigDecimal.valueOf(aantal)).setScale(2, RoundingMode.HALF_UP);
     }
+
 }
