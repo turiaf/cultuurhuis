@@ -12,7 +12,7 @@ public class Klant {
     private String familienaam;
     @Embedded
     private Adres adres;
-    private String gebruikernaam;
+    private String gebruikersnaam;
     private String paswoord;
 
     public long getId() {
@@ -31,8 +31,8 @@ public class Klant {
         return adres;
     }
 
-    public String getGebruikernaam() {
-        return gebruikernaam;
+    public String getGebruikersnaam() {
+        return gebruikersnaam;
     }
 
     public String getPaswoord() {

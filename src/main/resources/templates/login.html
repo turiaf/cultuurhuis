@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(title= 'cultuurhuis')"></head>
+<body>
+<nav th:replace="fragments::menu"></nav>
+<h1>Bevestigen</h1>
+<h2>Satp 1:wie ben je?</h2>
+<form th:action="@{/login}" method="post">
+    <label>Gebruikersnaam:<input name="username" required autofocus></label>
+    <label>Paswoord:<input name="password" type="password" required></label>
+    <button>Zoek me op</button>
+</form>
+<a th:href="@{/klant}"><button>Ik ben nieuw</button></a>
+<div th:if="${param.error} != null" class="fout">
+    Verkeerde gebruikersnaam of paswoord
+</div>
+</body>
+</html>

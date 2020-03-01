@@ -10,8 +10,8 @@
 <nav th:fragment="menu">
     <ul class="zonderbolletjes">
         <li><a th:href="@{/}">Voorstellingen</a></li>
-        <li th:if="${stateMandje.gevuld}"><a th:href="@{/}">Mandje</a></li>
-        <li th:if="${stateMandje.gevuld}"><a th:href="@{/}">Bevestigen</a></li>
+        <li th:if="${stateMandje.gevuld}"><a th:href="@{/mandje}">Mandje</a></li>
+        <li th:if="${stateMandje.gevuld}"><a th:href="@{/reservaties/bevestigen}">Bevestigen</a></li>
     </ul>
 </nav>
 </body>

@@ -1,11 +1,15 @@
 package be.vdab.cultuurhuis.controllers;
 
+import be.vdab.cultuurhuis.domain.Klant;
 import be.vdab.cultuurhuis.domain.Voorstelling;
 import be.vdab.cultuurhuis.exceptions.VoorstellingNietGevondenException;
 import be.vdab.cultuurhuis.forms.PlaatsenForm;
+import be.vdab.cultuurhuis.services.KlantService;
 import be.vdab.cultuurhuis.services.VoorstellingService;
 import be.vdab.cultuurhuis.sessions.Mandje;
 import be.vdab.cultuurhuis.sessions.StateMandje;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +27,14 @@ public class ReservatieController {
     private final Mandje mandje;
     private final VoorstellingService voorstellingService;
     private final StateMandje stateMandje;
+    private final KlantService klantService;
 
-    public ReservatieController(Mandje mandje, VoorstellingService voorstellingService, StateMandje stateMandje) {
+    public ReservatieController(Mandje mandje, VoorstellingService voorstellingService,
+                                StateMandje stateMandje, KlantService klantService) {
         this.mandje = mandje;
         this.voorstellingService = voorstellingService;
         this.stateMandje = stateMandje;
+        this.klantService = klantService;
     }
 
     @PostMapping("{optionalVoorstelling}")
@@ -60,5 +67,15 @@ public class ReservatieController {
         } else {
             return new ModelAndView("voorstellingen");
         }
+    }
+
+    @GetMapping("bevestigen")
+    public ModelAndView bevestigen() {
+        ModelAndView modelAndView = new ModelAndView("bevestigen");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String nam = authentication.getName();
+        Klant klant = klantService.findByGebruikersnaamEquals(nam);
+        modelAndView.addObject("klant", klant);
+        return modelAndView;
     }
 }
