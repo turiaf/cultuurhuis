@@ -38,7 +38,8 @@ class KlantController {
         if(errors.hasErrors()) {
             return new ModelAndView("klant");
         }
-        klantService.klantToevoegen((Klant) nieuweKlantForm);
+        Klant klant = nieuweKlantForm;
+        klantService.klantToevoegen(klant);
         return new ModelAndView("redirect:/reservaties/bevestigen");
     }
     @InitBinder("nieuweKlantForm")

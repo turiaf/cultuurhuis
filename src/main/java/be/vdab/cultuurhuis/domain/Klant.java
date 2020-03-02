@@ -1,5 +1,7 @@
 package be.vdab.cultuurhuis.domain;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -56,5 +58,9 @@ public class Klant {
 
     public String getPaswoord() {
         return paswoord;
+    }
+
+    public void encryptPaswoord() {
+        paswoord = new BCryptPasswordEncoder().encode(this.paswoord);
     }
 }

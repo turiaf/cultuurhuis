@@ -32,9 +32,10 @@ class DefaultKlantService implements KlantService {
         optionalKlant.ifPresent(klant1 -> {
             throw new KlantBestaatAlException();
         });
+        klant.encryptPaswoord();
         klantRepository.save(klant);
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(klant.getGebruikersnaam())
+                new UsernamePasswordAuthenticationToken(klant.getGebruikersnaam(), null, null)
         );
     }
 }

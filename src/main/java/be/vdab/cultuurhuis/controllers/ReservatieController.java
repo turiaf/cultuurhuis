@@ -40,30 +40,48 @@ public class ReservatieController {
     @PostMapping("{optionalVoorstelling}")
     public ModelAndView reserveren(@Valid PlaatsenForm form, Errors errors,
                                    @PathVariable Optional<Voorstelling> optionalVoorstelling) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("reserveren");
             optionalVoorstelling.ifPresent(voorstelling -> {
                 modelAndView.addObject("voorstelling", voorstelling);
             });
             return modelAndView;
         }
-        if(optionalVoorstelling.isPresent()) {
+        if (optionalVoorstelling.isPresent()) {
             Voorstelling voorstelling = optionalVoorstelling.get();
             long plaats = mandje.addVoorstelling(voorstelling.getId(), form.getPlaatsen());
-            if(plaats == 0 || plaats == -1) {
+            if (plaats == 0) {
                 mandje.verhoogTotaal(voorstelling.teBetalen(form.getPlaatsen()));
-                if(!stateMandje.isGevuld()) {
+                if (!stateMandje.isGevuld()) {
                     stateMandje.setGevuld(true);
                 }
+                return new ModelAndView("redirect:/mandje");
+            } else if (plaats == -1) {
+                mandje.addTotaalAfterWijzijgen(voorstelling, form.getPlaatsen());
                 return new ModelAndView("redirect:/mandje");
             } else {
                 ModelAndView modelAndView = new ModelAndView("reserveren");
                 modelAndView.addObject("voorstelling", voorstelling);
                 form.setPlaatsen(plaats);
                 modelAndView.addObject("plaatsenForm", form)
-                .addObject("keer", true);
+                        .addObject("keer", true);
                 return modelAndView;
             }
+//            if(plaats == 0 || plaats == -1) {
+//                mandje.verhoogTotaal(voorstelling.teBetalen(form.getPlaatsen()));
+//                mandje.addTotaalAfterWijzijgen(voorstelling, form.getPlaatsen());
+//                if(!stateMandje.isGevuld()) {
+//                    stateMandje.setGevuld(true);
+//                }
+//                return new ModelAndView("redirect:/mandje");
+//            } else {
+//                ModelAndView modelAndView = new ModelAndView("reserveren");
+//                modelAndView.addObject("voorstelling", voorstelling);
+//                form.setPlaatsen(plaats);
+//                modelAndView.addObject("plaatsenForm", form)
+//                .addObject("keer", true);
+//                return modelAndView;
+//            }
         } else {
             return new ModelAndView("voorstellingen");
         }
