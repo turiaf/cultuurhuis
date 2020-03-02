@@ -1,7 +1,9 @@
 package be.vdab.cultuurhuis.controllers;
 
 import be.vdab.cultuurhuis.domain.Adres;
+import be.vdab.cultuurhuis.domain.Klant;
 import be.vdab.cultuurhuis.forms.NieuweKlantForm;
+import be.vdab.cultuurhuis.services.KlantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
@@ -17,6 +19,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("klant")
 class KlantController {
+    private final KlantService klantService;
+
+    public KlantController(KlantService klantService) {
+        this.klantService = klantService;
+    }
 
     @PostMapping
     public ModelAndView nieuweKlant() {
@@ -31,7 +38,8 @@ class KlantController {
         if(errors.hasErrors()) {
             return new ModelAndView("klant");
         }
-        return new ModelAndView("redirect:/");
+        klantService.klantToevoegen((Klant) nieuweKlantForm);
+        return new ModelAndView("redirect:/reservaties/bevestigen");
     }
     @InitBinder("nieuweKlantForm")
     void initBinder(DataBinder binder) {

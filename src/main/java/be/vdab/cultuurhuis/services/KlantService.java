@@ -2,6 +2,9 @@ package be.vdab.cultuurhuis.services;
 
 import be.vdab.cultuurhuis.domain.Klant;
 
+import java.util.Optional;
+
 public interface KlantService {
-    Klant findByGebruikersnaamEquals(String gebruikersnaam);
+    Optional<Klant> findByGebruikersnaamEquals(String gebruikersnaam);
+    void klantToevoegen(Klant klant);
 }

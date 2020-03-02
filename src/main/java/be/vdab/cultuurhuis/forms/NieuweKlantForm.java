@@ -1,14 +1,14 @@
 package be.vdab.cultuurhuis.forms;
 
+import be.vdab.cultuurhuis.constraints.GebruikersnaamMoetNieuweZijn;
 import be.vdab.cultuurhuis.constraints.KlantDeZelfdePaswoord;
 import be.vdab.cultuurhuis.domain.Adres;
 import be.vdab.cultuurhuis.domain.Klant;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @KlantDeZelfdePaswoord
+@GebruikersnaamMoetNieuweZijn
 public class NieuweKlantForm extends Klant{
     @NotBlank
     private String herhaalPaswoord;

@@ -74,8 +74,11 @@ public class ReservatieController {
         ModelAndView modelAndView = new ModelAndView("bevestigen");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String nam = authentication.getName();
-        Klant klant = klantService.findByGebruikersnaamEquals(nam);
-        modelAndView.addObject("klant", klant);
+        Optional<Klant> optionalKlant = klantService.findByGebruikersnaamEquals(nam);
+        optionalKlant.ifPresent(klant -> {
+            modelAndView.addObject("klant", klant);
+        });
+
         return modelAndView;
     }
 }
