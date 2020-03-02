@@ -5,11 +5,12 @@ import be.vdab.cultuurhuis.domain.Adres;
 import be.vdab.cultuurhuis.domain.Klant;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @KlantDeZelfdePaswoord
 public class NieuweKlantForm extends Klant{
-    @NotNull
+    @NotBlank
     private String herhaalPaswoord;
 
     public NieuweKlantForm(String voornaam, String familienaam, Adres adres,

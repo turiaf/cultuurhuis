@@ -3,18 +3,19 @@ package be.vdab.cultuurhuis.domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Embeddable
 @Access(AccessType.FIELD)
 public class Adres {
-    @NotNull
+    @NotBlank
     private String straat;
-    @NotNull
+    @NotBlank
     private String huisnr;
-    @NotNull
+    @NotBlank
     private String postcode;
-    @NotNull
+    @NotBlank
     private String gemeente;
 
     protected Adres() {

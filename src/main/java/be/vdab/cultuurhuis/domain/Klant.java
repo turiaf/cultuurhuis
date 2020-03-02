@@ -2,6 +2,7 @@ package be.vdab.cultuurhuis.domain;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -10,16 +11,16 @@ public class Klant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull
+    @NotBlank
     private String voornaam;
-    @NotNull
+    @NotBlank
     private String familienaam;
     @Valid
     @Embedded
     private Adres adres;
-    @NotNull
+    @NotBlank
     private String gebruikersnaam;
-    @NotNull
+    @NotBlank
     private String paswoord;
 
     protected Klant() {
