@@ -89,14 +89,18 @@ public class ReservatieController {
 
     @GetMapping("bevestigen")
     public ModelAndView bevestigen() {
-        ModelAndView modelAndView = new ModelAndView("bevestigen");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String nam = authentication.getName();
-        Optional<Klant> optionalKlant = klantService.findByGebruikersnaamEquals(nam);
-        optionalKlant.ifPresent(klant -> {
-            modelAndView.addObject("klant", klant);
-        });
+        if(mandje.isGevuld()) {
+            ModelAndView modelAndView = new ModelAndView("bevestigen");
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String nam = authentication.getName();
+            Optional<Klant> optionalKlant = klantService.findByGebruikersnaamEquals(nam);
+            optionalKlant.ifPresent(klant -> {
+                modelAndView.addObject("klant", klant);
+            });
+            return modelAndView;
+        } else {
+            return new ModelAndView("redirect:/");
+        }
 
-        return modelAndView;
     }
 }

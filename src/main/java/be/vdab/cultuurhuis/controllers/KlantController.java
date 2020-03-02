@@ -25,7 +25,7 @@ class KlantController {
         this.klantService = klantService;
     }
 
-    @PostMapping
+    @GetMapping
     public ModelAndView nieuweKlant() {
         ModelAndView modelAndView = new ModelAndView("klant");
         modelAndView.addObject(new NieuweKlantForm(null,null,
@@ -38,7 +38,11 @@ class KlantController {
         if(errors.hasErrors()) {
             return new ModelAndView("klant");
         }
-        Klant klant = nieuweKlantForm;
+        Klant klant = new Klant(nieuweKlantForm.getVoornaam(), nieuweKlantForm.getFamilienaam(),
+                new Adres(nieuweKlantForm.getAdres().getStraat(),
+                        nieuweKlantForm.getAdres().getHuisnr(), nieuweKlantForm.getAdres().getPostcode(),
+                        nieuweKlantForm.getAdres().getGemeente()), nieuweKlantForm.getGebruikersnaam(),
+                nieuweKlantForm.getPaswoord());
         klantService.klantToevoegen(klant);
         return new ModelAndView("redirect:/reservaties/bevestigen");
     }
