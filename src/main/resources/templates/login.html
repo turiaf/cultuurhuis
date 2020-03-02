@@ -10,7 +10,9 @@
     <label>Paswoord:<input name="password" type="password" required></label>
     <button>Zoek me op</button>
 </form>
-<a th:href="@{/klant}"><button>Ik ben nieuw</button></a>
+<form th:action="@{/klant}" method="post">
+    <button>Ik ben nieuw</button>
+</form>
 <div th:if="${param.error} != null" class="fout">
     Verkeerde gebruikersnaam of paswoord
 </div>

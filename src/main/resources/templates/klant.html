@@ -4,27 +4,32 @@
 <body>
 <nav th:replace="fragments::menu"></nav>
 <h1>Nieuwe klant <img th:src="@{/images/nieuweklant.png}" alt="nieuweklant"></h1>
-<!--<form th:action="@{/}" method="post" th:object="${}">-->
-<!--    <label>Voornaam <span th:errors="*{naam}"></span>-->
-<!--        <input th:field="*{naam}" autofocus required></label>-->
-<!--    <label>Familienaam <span th:errors="*{naam}"></span>-->
-<!--        <input th:field="*{naam}" autofocus required></label>-->
-<!--    <label>Straat <span th:errors="*{straat}"></span>-->
-<!--        <input th:field="*{straat}" required></label>-->
-<!--    <label>Huisnummer <span th:errors="*{huisNr}"></span>-->
-<!--        <input th:field="*{huisNr}" required></label>-->
-<!--    <label>Postcode <span th:errors="*{postCode}"></span>-->
-<!--        <input th:field="*{postCode}"></label>-->
-<!--    <label>Gemeente <span th:errors="*{gemeente}"></span>-->
-<!--        <input th:field="*{gemeente}" required></label>-->
-<!--    <label>Gebruikenaam <span th:errors="*{gemeente}"></span>-->
-<!--        <input th:field="*{gemeente}" required></label>-->
-<!--    <label>Paswoord <span th:errors="*{gemeente}"></span>-->
-<!--        <input th:field="*{gemeente}" required></label>-->
-<!--    <label>Herhaal paswoord <span th:errors="*{gemeente}"></span>-->
-<!--        <input th:field="*{gemeente}" required></label>-->
-<!--    <button>OK</button>-->
-<!--</form>-->
+<form th:action="@{/klant/toevoegen}" method="post" th:object="${nieuweKlantForm}">
+    <label>Voornaam <span th:errors="*{voornaam}"></span>
+        <input th:field="*{voornaam}" autofocus required></label>
+    <label>Familienaam <span th:errors="*{familienaam}"></span>
+        <input th:field="*{familienaam}" required></label>
+    <label>Straat <span th:errors="*{adres.straat}"></span>
+        <input th:field="*{adres.straat}" required></label>
+    <label>Huisnummer <span th:errors="*{adres.huisnr}"></span>
+        <input th:field="*{adres.huisnr}" required></label>
+    <label>Postcode <span th:errors="*{adres.postcode}"></span>
+        <input th:field="*{adres.postcode}"></label>
+    <label>Gemeente <span th:errors="*{adres.gemeente}"></span>
+        <input th:field="*{adres.postcode}" required></label>
+    <label>Gebruikenaam <span th:errors="*{gebruikersnaam}"></span>
+        <input th:field="*{gebruikersnaam}" required></label>
+    <label>Paswoord <span th:errors="*{paswoord}"></span>
+        <input th:field="*{paswoord}" required></label>
+    <label>Herhaal paswoord <span th:errors="*{herhaalPaswoord}"></span>
+        <input th:field="*{herhaalPaswoord}" required></label>
+    <button>OK</button>
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div class="fout" th:each="error:${#fields.globalErrors()}"
+             th:text="${error}"></div>
+    </div>
+</form>
+
 </body>
 </html>
 

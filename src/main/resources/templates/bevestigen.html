@@ -5,7 +5,7 @@
 <nav th:replace="fragments::menu"></nav>
 <h1>Bevestigen <img th:src="@{/images/bevestig.png}" alt="bevestig"></h1>
 <h2>Satp 1:wie ben je?</h2>
-<p th:object="${klant}" th:text="|*{voornaam} *{familienaam} *{adres.straat} *{adres.huisnr} *{adres.postcode} *{adres.gemeente}|"></p>
+<p th:if="${klant} != null" th:object="${klant}" th:text="|*{voornaam} *{familienaam} *{adres.straat} *{adres.huisnr} *{adres.postcode} *{adres.gemeente}|"></p>
 <h2>Satp 2:bevestigen</h2>
 <button>Bevestigen</button>
 </body>
