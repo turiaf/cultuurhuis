@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String naam;
+
     public long getId() {
         return id;
     }
@@ -21,5 +23,4 @@ public class Genre {
     public String getNaam() {
         return naam;
     }
-
 }

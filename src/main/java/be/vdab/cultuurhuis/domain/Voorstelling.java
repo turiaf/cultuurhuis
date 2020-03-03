@@ -1,5 +1,6 @@
 package be.vdab.cultuurhuis.domain;
 
+import be.vdab.cultuurhuis.exceptions.NietGenoegPlaatsException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -65,6 +66,13 @@ public class Voorstelling {
             throw new IllegalArgumentException();
         }
         return prijs.multiply(BigDecimal.valueOf(aantal)).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public void verlagenPlaats(long aantal) {
+        if(vrijeplaatsen < aantal) {
+            throw new NietGenoegPlaatsException();
+        }
+        vrijeplaatsen = vrijeplaatsen - aantal;
     }
 
 }

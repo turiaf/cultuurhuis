@@ -1,10 +1,13 @@
 package be.vdab.cultuurhuis.controllers;
 
 import be.vdab.cultuurhuis.domain.Klant;
+import be.vdab.cultuurhuis.domain.Reservatie;
 import be.vdab.cultuurhuis.domain.Voorstelling;
+import be.vdab.cultuurhuis.dto.GeluktMislukte;
 import be.vdab.cultuurhuis.exceptions.VoorstellingNietGevondenException;
 import be.vdab.cultuurhuis.forms.PlaatsenForm;
 import be.vdab.cultuurhuis.services.KlantService;
+import be.vdab.cultuurhuis.services.ReservatieService;
 import be.vdab.cultuurhuis.services.VoorstellingService;
 import be.vdab.cultuurhuis.sessions.Mandje;
 import be.vdab.cultuurhuis.sessions.StateMandje;
@@ -12,13 +15,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.OptimisticLockException;
 import javax.validation.Valid;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,13 +31,16 @@ public class ReservatieController {
     private final VoorstellingService voorstellingService;
     private final StateMandje stateMandje;
     private final KlantService klantService;
+    private final ReservatieService reservatieService;
 
     public ReservatieController(Mandje mandje, VoorstellingService voorstellingService,
-                                StateMandje stateMandje, KlantService klantService) {
+                                StateMandje stateMandje, KlantService klantService,
+                                ReservatieService reservatieService) {
         this.mandje = mandje;
         this.voorstellingService = voorstellingService;
         this.stateMandje = stateMandje;
         this.klantService = klantService;
+        this.reservatieService = reservatieService;
     }
 
     @PostMapping("{optionalVoorstelling}")
@@ -89,7 +95,7 @@ public class ReservatieController {
 
     @GetMapping("bevestigen")
     public ModelAndView bevestigen() {
-        if(mandje.isGevuld()) {
+        if (mandje.isGevuld()) {
             ModelAndView modelAndView = new ModelAndView("bevestigen");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String nam = authentication.getName();
@@ -102,5 +108,24 @@ public class ReservatieController {
             return new ModelAndView("redirect:/");
         }
 
+    }
+
+    @PostMapping("bevestigen")
+    public ModelAndView confirm(@RequestParam("id") Klant klant) {
+        ModelAndView modelAndView = new ModelAndView("overzicht");
+        if (mandje.isGevuld()) {
+            try {
+                GeluktMislukte geluktMislukte = reservatieService.confirmReservatie(mandje.getVoorstellingen(), klant);
+                modelAndView.addObject("misluktes", geluktMislukte.getMislukte());
+                modelAndView.addObject("geluktes", geluktMislukte.getGelukte());
+            } catch (OptimisticLockException | InterruptedException e) {
+                return new ModelAndView("redirect:/");
+            }
+        } else {
+            return new ModelAndView("redirect:/reservaties/bevestigen");
+        }
+        mandje.deleteMandje();
+        stateMandje.setGevuld(false);
+        return modelAndView;
     }
 }

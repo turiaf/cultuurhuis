@@ -7,6 +7,10 @@
 <h2>Satp 1:wie ben je?</h2>
 <p th:if="${klant} != null" th:object="${klant}" th:text="|*{voornaam} *{familienaam} *{adres.straat} *{adres.huisnr} *{adres.postcode} *{adres.gemeente}|"></p>
 <h2>Satp 2:bevestigen</h2>
-<button>Bevestigen</button>
+<form th:action="@{/reservaties/bevestigen}" method="post">
+    <button>Bevestigen</button>
+    <input type="hidden" name="id" th:value="${klant.id}">
+</form>
+
 </body>
 </html>
