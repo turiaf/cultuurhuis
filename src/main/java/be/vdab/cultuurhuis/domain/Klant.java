@@ -1,11 +1,13 @@
 package be.vdab.cultuurhuis.domain;
 
+import be.vdab.cultuurhuis.constraints.NaamZonderHtml;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "klanten")
@@ -14,15 +16,19 @@ public class Klant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank
+    @NaamZonderHtml
     private String voornaam;
     @NotBlank
+    @NaamZonderHtml
     private String familienaam;
     @Valid
     @Embedded
     private Adres adres;
     @NotBlank
+    @NaamZonderHtml
     private String gebruikersnaam;
     @NotBlank
+    @NaamZonderHtml
     private String paswoord;
 
     protected Klant() {

@@ -22,7 +22,7 @@ public class Voorstelling {
     private Long id;
     private String titel;
     private String uitvoerders;
-    @DateTimeFormat
+    @DateTimeFormat(style = "SS")
     private LocalDateTime datum;
     @NumberFormat(pattern = "0.00")
     private BigDecimal prijs;

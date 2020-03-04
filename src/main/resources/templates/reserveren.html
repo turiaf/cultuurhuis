@@ -24,7 +24,7 @@
     <label>Plaatsen
         <span th:errors="*{plaatsen}"></span>
         <span th:if="${keer}">Reservatie bestaat al u kan deze wijzigen</span>
-        <input th:field="*{plaatsen}">
+        <input th:field="*{plaatsen}" type="number" min="1" max="3" autofocus>
     </label>
     <input name="voorstelling" type="hidden" th:value="${voorstelling.id}">
     <button>Toevoegen</button>

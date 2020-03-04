@@ -64,34 +64,6 @@ h1 {
     clear: both;
 }
 
-/*table, th, td {
-    border: 1px solid silver;
-    border-collapse: collapse;
-}
-
-thead {
-    color: black;
-    background-color: white;
-}
-
-td, th {
-    padding-left: 0.2em;
-    padding-right: 0.2em;
-}
-
-th {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #FAFAFA;
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #E6E6E6;
-}*/
-
 label {
     cursor: pointer;
 }
@@ -127,72 +99,22 @@ label span:empty, .fout:empty {
     display: none;
 }
 
-
-
-/*.fullwidth {
-    width: 100%;
-}*/
-
-/*.knop {
-    text-decoration: none;
-}*/
-
-/*
-@media print {
-    nav {
-        display: none;
-    }
-}
-*/
-
 a {
     color: black;
 }
-/*
 
 dt {
-    clear:left;
+    /*clear:left;*/
     float: left;
-    width: 15em;
+    margin-top: 1em;
 }
 
 dd {
-    margin-left: 15em;
+    clear:left;
+    margin-left: 0em;
     font-weight: bold;
 }
-*/
-
-/*
-blockquote {
-    margin-left: 0;
-    font-style: italic;
-}
-
-*/
 
 #logoutform {
     display: inline;
 }
-
-/*@media ( min-width :40em) {
-    .pagineren a {
-        font-weight: bold;
-        color: white;
-        background-color: green;
-        border-bottom-right-radius: 0.5em;
-        border-top-left-radius: 0.5em;
-        border-top-right-radius: 0.5em;
-        padding: 0.4em;
-        text-decoration: none;
-    }
-}
-
-.pagineren a:hover {
-    text-decoration: underline;
-}
-
-.verborgenFout {
-    display: none;
-}*/
-
-
