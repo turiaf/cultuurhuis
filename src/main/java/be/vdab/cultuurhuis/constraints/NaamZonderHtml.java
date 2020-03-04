@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
-@Pattern(regexp = "\\w+")
+@Pattern(regexp = "\\w[A-za-z1-9._-]*")
 public @interface NaamZonderHtml {
     @OverridesAttribute(constraint = Pattern.class, name = "message")
     String message() default "{be.vdab.cultuurhuis.constraints.NaamZonderHtml.message}";
