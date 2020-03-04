@@ -2,6 +2,7 @@
 <html lang="nl" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(title= 'cultuurhuis')"></head>
 <body>
+<script th:src="@{/js/preventDoubleSubmit.js}" defer></script>
 <nav th:replace="fragments::menu"></nav>
 <h1>Bevestigen <img th:src="@{/images/bevestig.png}" alt="bevestig"></h1>
 <h2>Satp 1:wie ben je?</h2>
@@ -11,6 +12,7 @@
     <button>Bevestigen</button>
     <input type="hidden" name="id" th:value="${klant.id}">
 </form>
+<p th:if="${param.fout} != null">Technisch problem Bevestigen nog een keer</p>
 
 </body>
 </html>

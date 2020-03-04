@@ -2,6 +2,7 @@
 <html lang="nl" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(title= 'cultuurhuis')"></head>
 <body>
+<script th:src="@{/js/preventDoubleSubmit.js}" defer></script>
 <nav th:replace="fragments::menu"></nav>
 <h1>Mandje <img th:src="@{/images/mandje.png}" alt="mandje"></h1>
 <form th:action="@{/mandje/verwijderen}" method="post">
