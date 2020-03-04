@@ -42,7 +42,7 @@ class VoorstellingController {
         ModelAndView modelAndView = new ModelAndView("reserveren");
         optionalVoorstelling.ifPresent(voorstelling -> {
             modelAndView.addObject("voorstelling", voorstelling)
-                    .addObject(new PlaatsenForm(null,null));
+                    .addObject(new PlaatsenForm(voorstelling,null));
         });
         return modelAndView;
     }

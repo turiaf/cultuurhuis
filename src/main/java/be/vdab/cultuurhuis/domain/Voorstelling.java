@@ -33,6 +33,7 @@ public class Voorstelling {
     @Version
     private long versie;
 
+
     public Long getId() {
         return id;
     }

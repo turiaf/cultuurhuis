@@ -115,6 +115,11 @@ dd {
     font-weight: bold;
 }
 
-#logoutform {
-    display: inline;
+.center {
+    text-align: center;
+}
+.verwijderenButton button {
+    font-size: 0.5em;
+    cursor: pointer;
+    vertical-align: top;
 }

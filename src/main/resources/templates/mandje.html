@@ -14,7 +14,7 @@
             <th>Uitvoerders</th>
             <th>Prijs</th>
             <th>Plaatsen</th>
-            <th><button>Verwijderen</button></th>
+            <th class="verwijderenButton"><button>Verwijderen</button></th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
             <td th:text="*{uitvoerders}"></td>
             <td><span>&euro; </span><span th:text="*{{prijs}}"></span></td>
             <td th:text="${mandjeLijn.plaatsen}" class="rightb"></td>
-            <td>
+            <td class="center">
                 <input type="checkbox" name="ver" th:value="*{id}">
             </td>
         </tr>
